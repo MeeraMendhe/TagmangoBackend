@@ -27,19 +27,54 @@ router.post("/",async(req,res)=>
         data.push(user)
         data = JSON.stringify(data);
         data=JSON.parse(data)
-        //console.log(data)
-        transporter.sendMail(data[0],(e,result)=>
+        //console.log(data[0].time)
+        if(data[0].time=="now")
         {
-            if(e)
+            transporter.sendMail(data[0],(e,result)=>
             {
-                console.log("error",e)
-            }
-            else
+                if(e)
+                {
+                    console.log("error",e)
+                }
+                else
+                {
+                    console.log(result)
+                }
+            })
+        }
+        else{
+            let time=data[0].time.split(" ")
+            let d= new Date()
+            let s=d.toString().split(" ")
+            let count=0
+            if(time[0]==s[1]&& time[1]==s[2]&& time[2]==s[3])
             {
-                console.log(result)
+                 let [h1,m1,s1]=time[3].split(":")
+                 let [h2,m2,s2]=s[4].split(":")
+                 console.log(h1,m1,s1,"----",h2,m2,s2)
+                 let id=setTimeout(()=> {
+                     setTimeout(()=>{
+                        setTimeout(() => {
+                            console.log("mail")
+                         transporter.sendMail(data[0],(e,result)=>
+                         {
+                             if(e)
+                             {
+                                 console.log("error",e)
+                             }
+                             else
+                             {
+                                 console.log(result)
+                             }
+                         })
+                        },Math.abs(h1-h2))
+                     },Math.abs(m1-m2))
+                 },Math.abs(s1-s2)*1000)
+                 //clearTimeout(id)
             }
-        })
-        return res.status(200).send(user)
+        }
+     
+       return res.status(200).send(user)
     }
     catch(e)
     {
