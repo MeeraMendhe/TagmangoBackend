@@ -46,7 +46,6 @@ router.post("/",async(req,res)=>
             let time=data[0].time.split(" ")
             let d= new Date()
             let s=d.toString().split(" ")
-            let count=0
             if(time[0]==s[1]&& time[1]==s[2]&& time[2]==s[3])
             {
                  let [h1,m1,s1]=time[3].split(":")
